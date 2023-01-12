@@ -1,6 +1,6 @@
 
 #工作名字
-name: glados-checkin
+name: test进程
 #
 on:
   workflow_dispatch: 
