@@ -1,2 +1,7 @@
+requests
 pytz
 matplotlib
+smtplib
+pandas
+urllib
+bs4
