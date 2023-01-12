@@ -1,3 +1,24 @@
+import time,random
+import requests,os,datetime,pytz
+import pandas as pd
+import matplotlib
+import matplotlib.pyplot as plt
+from urllib.request import urlopen
+from bs4 import BeautifulSoup as bs
+
+url=r'https://www.boc.cn/sourcedb/whpj/'
+################################################################
+import smtplib 
+from smtplib import SMTP_SSL
+from email.header import Header
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+from email.mime.image import MIMEImage
+
+
+
+
 freq=3#30分钟发一次邮件汇报
 limit=105000780#最大300条数据，停止，发送邮件汇报
 mailflag=True
@@ -6,8 +27,8 @@ receive_list=['782568799@qq.com']
 
 
 
-# plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
-# plt.rcParams['axes.unicode_minus']=False #用来正常显示负号 #有中文出现的情况，需要u'内容'
+plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号 #有中文出现的情况，需要u'内容'
 
 
 
@@ -143,7 +164,7 @@ while True:
         plt.xticks(rotation=30)
         plt.text(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0],
                     pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0])*.99985, 
-                 '{}最低点{}'.format(pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0]),df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0]),
+                 '{}u最低点{}'.format(pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0]),df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0]),
                 color='r',ha='center')
         plt.grid()
         plt.title('Trend_GBP')#,fontproperties=myfont)
