@@ -3,5 +3,5 @@ pytz
 matplotlib
 pyemail
 pandas
-urllib
+urllib3
 bs4
