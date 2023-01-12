@@ -73,11 +73,11 @@ def sendmail(receive_mail,title=None):
         smtp.login(send_usr,send_pwd)  # 登录邮箱
         smtp.sendmail(send_usr,receive,msg.as_string())  # 分别是发件人、收件人、格式
         smtp.quit()  # 结束服务
-        print(receive_mail,'邮件发送成功,mailflag已经改成False!',str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
+        print(receive_mail,'邮件发送成功,mailflag已经改成False!'.encode('utf-8'),str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
         global mailflag
         mailflag=False
     except Exception as E:
-        print('发送失败',E)
+        print('发送失败'.encode('utf-8'),E)
         return 'sent'
     
     
@@ -97,19 +97,19 @@ while True:
         all_tr.pop(0) 
         for r in all_tr:
             all_td = r.find_all("td")
-            if all_td[0].text in ("英镑"):
+            if all_td[0].text in ("英镑".encode('utf-8')):
                 price=float(all_td[3].text)
                 try:
                     if len(df)>0:pass;
                 except Exception as NE:
-                    print(NE,'新建df.')    
+                    print(NE,'新建df.'.encode('utf-8'))    
                     df=pd.DataFrame(dict(zip([i.text for i in t.find_all('th')],[i.text for i in all_td])),index=['test'])
                 if all_td[-2].text not in df['发布日期'].values:
                     df=pd.concat([df,pd.DataFrame(dict(zip([i.text for i in t.find_all('th')],[i.text for i in all_td])),index=['test'])])
                     
-                print( all_td[-2].text ,'len=',len(df),end='\t')               
+                print( all_td[-2].text.encode('utf-8') ,'len=',len(df),end='\t')               
 
-        print(str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[14:16],end='分.')
+        print(str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[14:16],end='分.'.encode('utf-8'))
         
     except TypeError as E:
         print(134,E)
@@ -119,7 +119,7 @@ while True:
     if int(str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16][14:16])%freq==1 and not mailflag:mailflag=True
     if int(str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16][14:16])%freq==0 and mailflag:
         plt.close()
-        print("\n\nfreq达到，程序继续，发送邮件记录。")
+        print("\n\nfreq达到，程序继续，发送邮件记录。".encode('utf-8'))
         df=df.drop_duplicates(['发布日期'])
         df['发布日期']=pd.to_datetime(df['发布日期'])
         df1=df.sort_values(by=['发布日期'],ascending=[True])#按值，降序排列
@@ -149,7 +149,7 @@ while True:
         continue;  
         
     elif len(df)>limit:
-        print("\n\nlimit超限，程序停止。发送邮件。")
+        print("\n\nlimit超限，程序停止。发送邮件。".encode('utf-8'))
         df=df.drop_duplicates(['发布日期'])
         df['发布日期']=pd.to_datetime(df['发布日期'])
         df1=df.sort_values(by=['发布日期'],ascending=[True])#按值，降序排列
