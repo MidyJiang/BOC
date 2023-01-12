@@ -25,6 +25,7 @@ from email.mime.image import MIMEImage
 
 
 def sendmail(receive_mail,title=None):
+    sendtime=str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16]
     send_usr = '782568799@qq.com'  # 发件人
     send_pwd ='pdnfrwfijoewbeff'#'BUQRRQFPUANBCWMY' # 授权码，邮箱设置
     receive = receive_mail#'782568799@qq.com'  # 接收者
@@ -40,20 +41,20 @@ def sendmail(receive_mail,title=None):
     msg['From'] = send_usr  # 发件人
     msg['To'] = Header('midynow','utf8') # 收件人--这里是昵称
     
-    # msg.attach(MIMEText(content,'html','utf-8'))  # 构建邮件正文,不能多次构造
-    attchment = MIMEApplication(open(r'/kaggle/working/{}.png'.format(sendtime),'rb').read()) # 文件
-    attchment.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.png'.format(sendtime))
-    msg.attach(attchment)  # 添加附件到邮件
-    attchment2 = MIMEApplication(open(r'/kaggle/working/{}.csv'.format(sendtime),'rb').read()) # 文件
-    attchment2.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.csv'.format(sendtime))
-    msg.attach(attchment2)  # 添加附件到邮件
+    msg.attach(MIMEText(content,'html','utf-8'))  # 构建邮件正文,不能多次构造
+#     attchment = MIMEApplication(open(r'/kaggle/working/{}.png'.format(sendtime),'rb').read()) # 文件
+#     attchment.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.png'.format(sendtime))
+#     msg.attach(attchment)  # 添加附件到邮件
+#     attchment2 = MIMEApplication(open(r'/kaggle/working/{}.csv'.format(sendtime),'rb').read()) # 文件
+#     attchment2.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.csv'.format(sendtime))
+#     msg.attach(attchment2)  # 添加附件到邮件
     
-    f = open(r'/kaggle/working/{}.png'.format(sendtime), 'rb')  #打开图片
-    msgimage = MIMEImage(f.read())
-    f.close()
-    msgimage.add_header('Content-ID', '<image1>')  # 设置图片
-    msg.attach(msgimage)
-    msg.attach(MIMEText(html_img,'html','utf-8'))  # 添加到邮件正文
+#     f = open(r'/kaggle/working/{}.png'.format(sendtime), 'rb')  #打开图片
+#     msgimage = MIMEImage(f.read())
+#     f.close()
+#     msgimage.add_header('Content-ID', '<image1>')  # 设置图片
+#     msg.attach(msgimage)
+#     msg.attach(MIMEText(html_img,'html','utf-8'))  # 添加到邮件正文
     try:
         smtp = SMTP_SSL(email_server)  #指定邮箱服务器
         smtp.ehlo(email_server)   # 部分邮箱需要
