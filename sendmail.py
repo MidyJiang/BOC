@@ -29,7 +29,7 @@ def sendmail(receive_mail,title=None):
     send_usr = '782568799@qq.com'  # 发件人
     send_pwd ='pdnfrwfijoewbeff'#'BUQRRQFPUANBCWMY' # 授权码，邮箱设置
     receive = receive_mail#'782568799@qq.com'  # 接收者
-    content = '发送于{}<p><a href="{}">GBPCNY-中国银行现价动态</a></p>'.format(
+    content = '发送于{}<p><a href="{}">GBPCNY-中国银行现价动态,from github</a></p>'.format(
         str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16],url)
     #content 内容设置
     html_img = f'<p>{content}<br><img src="cid:image1"></br></p>' # html格式添加图片
@@ -61,11 +61,11 @@ def sendmail(receive_mail,title=None):
         smtp.login(send_usr,send_pwd)  # 登录邮箱
         smtp.sendmail(send_usr,receive,msg.as_string())  # 分别是发件人、收件人、格式
         smtp.quit()  # 结束服务
-        print(receive_mail,'邮件发送成功,mailflag已经改成False!',str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
+        print(receive_mail,'邮件发送成功,mailflag已经改成False!'.encode('utf-8'),str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
         global mailflag
         mailflag=False
     except Exception as E:
-        print('发送失败',E)
+        print('发送失败'.encode('utf-8'),E)
         return 'sent'
     
 sendmail("782568799@qq.com")
