@@ -1,11 +1,2 @@
-time
-requests
-smtplib
-random
-datetime
 pytz
-pandas>=1.3.5
-matplotlib>=3.5.3
-urllib
-bs4
-email
+matplotlib
