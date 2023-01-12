@@ -27,8 +27,8 @@ receive_list=['782568799@qq.com']
 
 
 
-plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
-plt.rcParams['axes.unicode_minus']=False #用来正常显示负号 #有中文出现的情况，需要u'内容'
+# plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+# plt.rcParams['axes.unicode_minus']=False #用来正常显示负号 #有中文出现的情况，需要u'内容'
 
 
 
@@ -91,7 +91,7 @@ while True:
         time.sleep(4)
         r = urlopen(url)
         c = r.read()
-        bs_obj = bs(c,"html")
+        bs_obj = bs(c,features=r"html.parser")
         t = bs_obj.find_all("table")[1]
         all_tr = t.find_all("tr")
         all_tr.pop(0) 
