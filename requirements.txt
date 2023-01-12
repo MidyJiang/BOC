@@ -1,7 +1,7 @@
 requests
 pytz
 matplotlib
-smtplib
+pyemail
 pandas
 urllib
 bs4
