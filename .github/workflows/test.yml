@@ -24,7 +24,7 @@ jobs:
 #将工作流程中运行的所有作业组合在一起
   checkin:
   #定义名为 checkin 的作业。 子键将定义作业的属性 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     #将作业配置为在最新版本的 Ubuntu Linux 运行器上运行
     #if: github.event.repository.owner.id == github.event.sender.id
     # https://p3terx.com/archives/github-actions-manual-trigger.html
