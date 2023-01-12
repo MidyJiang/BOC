@@ -97,7 +97,7 @@ while True:
         all_tr.pop(0) 
         for r in all_tr:
             all_td = r.find_all("td")
-            if all_td[0].text in ("英镑".encode('utf-8')):
+            if all_td[0].text in ("英镑"):
                 price=float(all_td[3].text)
                 try:
                     if len(df)>0:pass;
