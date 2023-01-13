@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-freq=10#30分钟发一次邮件汇报
+freq=59#30分钟发一次邮件汇报
 limit=105000780#最大300条数据，停止，发送邮件汇报
 mailflag=True
 receive_list=['782568799@qq.com']
@@ -153,7 +153,7 @@ while True:
         df.to_csv(r'{}.csv'.format(sendtime))
         try:
             for receive_mail in receive_list:
-                sendmail(receive_mail,"《debug Github{}min_{}》".format(freq,price)+str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
+                sendmail(receive_mail,"《Github完整测试{}min_{}》".format(freq,price)+str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
         except Exception as E:
             print(E)
         continue;  
