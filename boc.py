@@ -92,7 +92,7 @@ while True:
     if checktime[:3]=='Fri' and checktime[11:13]=='22':break;
     count+=1
     try:
-        time.sleep(4)
+#         time.sleep(4)
         r = urlopen(url)
         c = r.read()
         bs_obj = bs(c,features=r"html.parser")
