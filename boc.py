@@ -39,7 +39,7 @@ from email.mime.image import MIMEImage
 
 def sendmail(receive_mail,title=None):
     send_usr = '782568799@qq.com'  # 发件人
-    send_pwd=COOKIE1
+    send_pwd=os.environ["COOKIE1"]
 #     send_pwd =
     receive = receive_mail#'782568799@qq.com'  # 接收者
     content = '发送于{}<p><a href="{}">GBPCNY-中国银行现价动态,from github</a></p>'.format(
