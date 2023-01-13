@@ -1,3 +1,13 @@
+# -*- coding:utf-8 -*-
+
+
+freq=10#30分钟发一次邮件汇报
+limit=105000780#最大300条数据，停止，发送邮件汇报
+mailflag=True
+receive_list=['782568799@qq.com']
+
+
+
 import time,random
 import requests,os,datetime,pytz
 import pandas as pd
@@ -17,16 +27,6 @@ from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 
 
-
-
-freq=3#30分钟发一次邮件汇报
-limit=105000780#最大300条数据，停止，发送邮件汇报
-mailflag=True
-receive_list=['782568799@qq.com']
-
-
-
-
 # plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 # plt.rcParams['axes.unicode_minus']=False #用来正常显示负号 #有中文出现的情况，需要u'内容'
 
@@ -39,7 +39,7 @@ receive_list=['782568799@qq.com']
 
 def sendmail(receive_mail,title=None):
     send_usr = '782568799@qq.com'  # 发件人
-    send_pwd=os.environ["COOKIE1"]
+    send_pwd=COOKIE1
 #     send_pwd =
     receive = receive_mail#'782568799@qq.com'  # 接收者
     content = '发送于{}<p><a href="{}">GBPCNY-中国银行现价动态,from github</a></p>'.format(
@@ -55,14 +55,14 @@ def sendmail(receive_mail,title=None):
     msg['To'] = Header('midynow','utf8') # 收件人--这里是昵称
     
     # msg.attach(MIMEText(content,'html','utf-8'))  # 构建邮件正文,不能多次构造
-    attchment = MIMEApplication(open(r'/kaggle/working/{}.png'.format(sendtime),'rb').read()) # 文件
-    attchment.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.png'.format(sendtime))
+    attchment = MIMEApplication(open(r'{}.png'.format(sendtime),'rb').read()) # 文件
+    attchment.add_header('Content-Disposition','attachment',filename=r'{}.png'.format(sendtime))
     msg.attach(attchment)  # 添加附件到邮件
-    attchment2 = MIMEApplication(open(r'/kaggle/working/{}.csv'.format(sendtime),'rb').read()) # 文件
-    attchment2.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.csv'.format(sendtime))
+    attchment2 = MIMEApplication(open(r'{}.csv'.format(sendtime),'rb').read()) # 文件
+    attchment2.add_header('Content-Disposition','attachment',filename=r'{}.csv'.format(sendtime))
     msg.attach(attchment2)  # 添加附件到邮件
     
-    f = open(r'/kaggle/working/{}.png'.format(sendtime), 'rb')  #打开图片
+    f = open(r'{}.png'.format(sendtime), 'rb')  #打开图片
     msgimage = MIMEImage(f.read())
     f.close()
     msgimage.add_header('Content-ID', '<image1>')  # 设置图片
@@ -74,11 +74,12 @@ def sendmail(receive_mail,title=None):
         smtp.login(send_usr,send_pwd)  # 登录邮箱
         smtp.sendmail(send_usr,receive,msg.as_string())  # 分别是发件人、收件人、格式
         smtp.quit()  # 结束服务
-        print(receive_mail,'邮件发送成功,mailflag已经改成False!'.encode('utf-8'),str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
+        print(receive_mail,'sendmail success.mailflag turned False!',
+              str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
         global mailflag
         mailflag=False
     except Exception as E:
-        print('发送失败'.encode('utf-8'),E)
+        print('sendmail failed,Check!',E)
         return 'sent'
     
     
@@ -105,39 +106,45 @@ while True:
                 try:
                     if len(df)>0:pass;
                 except Exception as NE:
-                    print(NE,'新建df.'.encode('utf-8'))    
-                    df=pd.DataFrame(dict(zip([i.text for i in t.find_all('th')],[i.text for i in all_td])),index=['test'])
-                if all_td[-2].text not in df['发布日期'].values:
-                    df=pd.concat([df,pd.DataFrame(dict(zip([i.text for i in t.find_all('th')],[i.text for i in all_td])),index=['test'])])
+                    print(NE,'create df.')    
+                    df=pd.DataFrame(dict(zip(['currency','forex_buy','cash_buy','forex_sell','cash_sell','boc_price','date','time'],[i.text for i in all_td])),index=['test'])
+                if pd.to_datetime(all_td[-2].text) not in df['date'].values:
+                    df=pd.concat([df,pd.DataFrame(dict(zip(['currency','forex_buy','cash_buy','forex_sell','cash_sell','boc_price','date','time'],
+                                                           [i.text for i in all_td])),index=['test'])])
                     
-                print( all_td[-2].text.encode('utf-8') ,'len=',len(df),end='\t')               
+                print( all_td[-2].text,'len=',len(df),end='\t')               
 
-        print(str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[14:16],end='分.'.encode('utf-8'))
+        print(str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[14:16],end='min.')
         
     except TypeError as E:
         print(134,E)
         pass;
-    df=df.drop_duplicates(['发布日期'])
+    df=df.drop_duplicates(['date'])
 
     if int(str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16][14:16])%freq==1 and not mailflag:mailflag=True
     if int(str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16][14:16])%freq==0 and mailflag:
         plt.close()
-        print("\n\nfreq达到，程序继续，发送邮件记录。".encode('utf-8'))
-        df=df.drop_duplicates(['发布日期'])
-        df['发布日期']=pd.to_datetime(df['发布日期'])
-        df1=df.sort_values(by=['发布日期'],ascending=[True])#按值，降序排列
+        print("\n\nfreq reached,program continues,mail sending")
+        df.columns=['currency','forex_buy','cash_buy','forex_sell','cash_sell','boc_price','date','time']
         
-        df1=df.set_index(['发布日期'])
+        
+        
+        
+        df=df.drop_duplicates(['date'])
+        df['date']=pd.to_datetime(df['date'])
+        df1=df.sort_values(by=['date'],ascending=[True])#按值，降序排列
+        
+        df1=df.set_index(['date'])
         df1.index=pd.to_datetime(df1.index)
-        pd.to_numeric(df1['现汇卖出价']).plot()
-        plt.scatter(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0],
-                    pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0]),
-                   color='r',marker='p')
-        print(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0],pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0]))
+        pd.to_numeric(df1['forex_sell']).plot()
+        plt.scatter(df1[df1['forex_sell']==df1['forex_sell'].min()]['forex_sell'].index[0],
+                    pd.to_numeric(df1[df1['forex_sell']==df1['forex_sell'].min()]['forex_sell'].values[0]),
+                   color='g',marker='p')
+        print(df1[df1['forex_sell']==df1['forex_sell'].min()]['forex_sell'].index[0],pd.to_numeric(df1[df1['forex_sell']==df1['forex_sell'].min()]['forex_sell'].values[0]))
         plt.xticks(rotation=30)
-        plt.text(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0],
-                    pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0])*.99985, 
-                 '{}最低点{}'.format(pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0]),df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0]), 
+        plt.text(df1[df1['forex_sell']==df1['forex_sell'].min()]['forex_sell'].index[0],
+                    pd.to_numeric(df1[df1['forex_sell']==df1['forex_sell'].min()]['forex_sell'].values[0])*.999985, 
+                 '{}min{}'.format(pd.to_numeric(df1[df1['forex_sell']==df1['forex_sell'].min()]['forex_sell'].values[0]),df1[df1['forex_sell']==df1['forex_sell'].min()]['forex_sell'].index[0]), 
                  color='r',ha='center')
         plt.grid()
         plt.title('Trend_GBP')#,fontproperties=myfont)
@@ -146,13 +153,13 @@ while True:
         df.to_csv(r'{}.csv'.format(sendtime))
         try:
             for receive_mail in receive_list:
-                sendmail(receive_mail,"《Github中行{}min_{}》".format(freq,price)+str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
+                sendmail(receive_mail,"《debug Github{}min_{}》".format(freq,price)+str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
         except Exception as E:
             print(E)
         continue;  
         
     elif len(df)>limit:
-        print("\n\nlimit超限，程序停止。发送邮件。".encode('utf-8'))
+        print("\n\nlimit exceed,program shut.mail sending")
         df=df.drop_duplicates(['发布日期'])
         df['发布日期']=pd.to_datetime(df['发布日期'])
         df1=df.sort_values(by=['发布日期'],ascending=[True])#按值，降序排列
@@ -167,7 +174,7 @@ while True:
         plt.xticks(rotation=30)
         plt.text(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0],
                     pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0])*.99985, 
-                 '{}u最低点{}'.format(pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0]),df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0]),
+                 '{}min{}'.format(pd.to_numeric(df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].values[0]),df1[df1['现汇卖出价']==df1['现汇卖出价'].min()]['现汇卖出价'].index[0]),
                 color='r',ha='center')
         plt.grid()
         plt.title('Trend_GBP')#,fontproperties=myfont)
