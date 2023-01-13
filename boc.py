@@ -89,7 +89,7 @@ timelist=[]
 
 while True:
     checktime=time.ctime()
-    if checktime[:3]=='Fri' and checktime[11:13]=='22':break;
+    if checktime[:3]=='Fri' and float(checktime[11:13])==19:break;#注意timezone！给定的是伦敦周五晚七点，即北京周六早三点。此时中行已经停盘。
     count+=1
     try:
 #         time.sleep(4)
