@@ -50,4 +50,6 @@ jobs:
       env: 
       #设置secrets的环境变量
         COOKIE1: ${{ secrets.COOKIE1 }}
-        freq: ${{secrets.freq}}
+        FREQ: ${{secrets.FREQ}}
+        ENCODE: ${{secrets.ENCODE}}
+        URL: ${{secrets.URL}}
