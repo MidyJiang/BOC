@@ -153,7 +153,7 @@ while True:
         df.to_csv(r'{}.csv'.format(sendtime))
         try:
             for receive_mail in receive_list:
-                sendmail(receive_mail,"《Github完整测试{}min_{}》".format(freq,price)+str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
+                sendmail(receive_mail,"《V1.14_{}min@{}》".format(freq,price)+str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
         except Exception as E:
             print(E)
         continue;  
