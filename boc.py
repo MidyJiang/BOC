@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 
 
-freq=59#30分钟发一次邮件汇报
 limit=105000780#最大300条数据，停止，发送邮件汇报
 mailflag=True
 receive_list=['782568799@qq.com']
@@ -27,6 +26,7 @@ from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 
 
+freq=os.environ["freq"]#30分钟发一次邮件汇报
 # plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 # plt.rcParams['axes.unicode_minus']=False #用来正常显示负号 #有中文出现的情况，需要u'内容'
 
