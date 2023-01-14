@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-limit=105000780#最大300条数据，停止，发送邮件汇报
+limit=1905000780#最大300条数据，停止，发送邮件汇报
 mailflag=True
 receive_list=['782568799@qq.com']
 
@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 from urllib.request import urlopen
 from bs4 import BeautifulSoup as bs
 
-url=r'https://www.boc.cn/sourcedb/whpj/'
 ################################################################
 import smtplib 
 from smtplib import SMTP_SSL
@@ -26,7 +25,8 @@ from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 
 
-freq=os.environ["freq"]#30分钟发一次邮件汇报
+freq=os.environ["FREQ"]#30分钟发一次邮件汇报
+url=os.environ["URL"]
 # plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 # plt.rcParams['axes.unicode_minus']=False #用来正常显示负号 #有中文出现的情况，需要u'内容'
 
@@ -50,11 +50,11 @@ def sendmail(receive_mail,title=None):
 
 
     msg = MIMEMultipart() # 构建主体
-    msg['Subject'] = Header(title,'utf8')  # 邮件主题
+    msg['Subject'] = Header(title,os.environ["ENCODE"])  # 邮件主题
     msg['From'] = send_usr  # 发件人
-    msg['To'] = Header('midynow','utf8') # 收件人--这里是昵称
+    msg['To'] = Header('midynow',os.environ["ENCODE"]) # 收件人--这里是昵称
     
-    # msg.attach(MIMEText(content,'html','utf-8'))  # 构建邮件正文,不能多次构造
+    # msg.attach(MIMEText(content,'html',os.environ["ENCODE"]))  # 构建邮件正文,不能多次构造
     attchment = MIMEApplication(open(r'{}.png'.format(sendtime),'rb').read()) # 文件
     attchment.add_header('Content-Disposition','attachment',filename=r'{}.png'.format(sendtime))
     msg.attach(attchment)  # 添加附件到邮件
@@ -67,7 +67,7 @@ def sendmail(receive_mail,title=None):
     f.close()
     msgimage.add_header('Content-ID', '<image1>')  # 设置图片
     msg.attach(msgimage)
-    msg.attach(MIMEText(html_img,'html','utf-8'))  # 添加到邮件正文
+    msg.attach(MIMEText(html_img,'html',os.environ["ENCODE"]))  # 添加到邮件正文
     try:
         smtp = SMTP_SSL(email_server)  #指定邮箱服务器
         smtp.ehlo(email_server)   # 部分邮箱需要
