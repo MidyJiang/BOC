@@ -1,5 +1,5 @@
 #工作名字
-name: run_boc正式进程(每周一凌晨启动)
+name: new formal正式流程
 #
 on:
   workflow_dispatch: 
