@@ -3,20 +3,16 @@ name: new formal正式流程
 #
 on:
   workflow_dispatch: 
-#   push:  # 当对分支master进行push操作的时候，这个工作流就被触发了
-#     branches: [ main ]
-  pull_request:  #只运行特定分支master
-    branches: [ main ]
+  push:    # 当对分支master进行push操作的时候，这个工作流就被触发了
+     branches: [ main ]
+#  pull_request:  #只运行特定分支master
+#    branches: [ main ]
   schedule:  # 定时任务，在每天的24点 18点推送签到信息到邮箱
     - cron:  10 19 * * 0 
    
 
-jobs:#将工作流程中运行的所有作业组合在一起
-  env:
-    COOKIE1: ${{ secrets.COOKIE1 }}
-    FREQ: ${{secrets.FREQ}}
-    ENCODE: ${{secrets.ENCODE}}
-    URL: ${{secrets.URL}}
+jobs:
+#将工作流程中运行的所有作业组合在一起
   checkin:  #定义名为 checkin 的job。 子键将定义作业的属性 
     runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
     steps:
