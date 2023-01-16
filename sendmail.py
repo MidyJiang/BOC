@@ -23,6 +23,10 @@ from email.mime.image import MIMEImage
 
 df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
 df.to_csv('df.csv',encoding=os.environ["ENCODE"])
+print(os.path.abspath(''))
+for ai,bi,ci in os.walk(os.path.abspath('')):
+    print(27,ci)
+
 
 
 def sendmail(receive_mail,title=None):
