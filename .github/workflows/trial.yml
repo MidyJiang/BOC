@@ -1,5 +1,5 @@
 #工作名字
-name: new formal正式流程
+name: 串联尝试.yml
 #
 on:
   workflow_dispatch: 
@@ -28,9 +28,9 @@ jobs:
     - name: Checkin
       run: |
         python3 ./sendmail.py
-#       env:   
-#       #设置secrets的环境变量
-#         COOKIE1: ${{ secrets.COOKIE1 }}
-#         FREQ: ${{secrets.FREQ}}
-#         ENCODE: ${{secrets.ENCODE}}
-#         URL: ${{secrets.URL}}
+      env:   
+      #设置secrets的环境变量
+        COOKIE1: ${{ secrets.COOKIE1 }}
+        FREQ: ${{secrets.FREQ}}
+        ENCODE: ${{secrets.ENCODE}}
+        URL: ${{secrets.URL}}
