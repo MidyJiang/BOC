@@ -21,7 +21,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 
-
+df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+df.to_csv('df.csv',encoding=os.environ["ENCODE"])
 
 
 def sendmail(receive_mail,title=None):
@@ -43,10 +44,10 @@ def sendmail(receive_mail,title=None):
     msg['From'] = send_usr  # 发件人
     msg['To'] = Header('midynow','utf8') # 收件人--这里是昵称
     
-    msg.attach(MIMEText(content,'html','utf-8'))  # 构建邮件正文,不能多次构造
-#     attchment = MIMEApplication(open(r'/kaggle/working/{}.png'.format(sendtime),'rb').read()) # 文件
-#     attchment.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.png'.format(sendtime))
-#     msg.attach(attchment)  # 添加附件到邮件
+#     msg.attach(MIMEText(content,'html','utf-8'))  # 构建邮件正文,不能多次构造
+    attchment = MIMEApplication(open(r'df.csv','rb').read()) # 文件
+    attchment.add_header('Content-Disposition','attachment',filename=r'df.csv')
+    msg.attach(attchment)  # 添加附件到邮件
 #     attchment2 = MIMEApplication(open(r'/kaggle/working/{}.csv'.format(sendtime),'rb').read()) # 文件
 #     attchment2.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.csv'.format(sendtime))
 #     msg.attach(attchment2)  # 添加附件到邮件
@@ -57,7 +58,9 @@ def sendmail(receive_mail,title=None):
 #     msgimage.add_header('Content-ID', '<image1>')  # 设置图片
 #     msg.attach(msgimage)
 #     msg.attach(MIMEText(html_img,'html','utf-8'))  # 添加到邮件正文
+    
     try:
+       
         smtp = SMTP_SSL(email_server)  #指定邮箱服务器
         smtp.ehlo(email_server)   # 部分邮箱需要
         smtp.login(send_usr,send_pwd)  # 登录邮箱
