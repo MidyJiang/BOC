@@ -29,8 +29,10 @@ def sendmail(receive_mail,title=None):
     send_usr = '782568799@qq.com'  # 发件人
     send_pwd ='pdnfrwfijoewbeff'#'BUQRRQFPUANBCWMY' # 授权码，邮箱设置
     receive = receive_mail#'782568799@qq.com'  # 接收者
-    content = '发送于{}<p><a href="{}">GBPCNY-中国银行现价动态,from github</a></p>'.format(
-        str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16],url)
+
+    content = '发送于{}<p><a href="{}">GBPCNY-中国银行现价动态,from github</a></p>\n\ncookie={},freq={},encode={},url={}.'.format(
+        str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16],url,os.environ["COOKIE1"],
+        os.environ["FREQ"],os.environ["ENCODE"],os.environ["URL"])
     #content 内容设置
     html_img = f'<p>{content}<br><img src="cid:image1"></br></p>' # html格式添加图片
     email_server = 'smtp.qq.com'
@@ -68,4 +70,4 @@ def sendmail(receive_mail,title=None):
         print('发送失败'.encode('utf-8'),E)
         return 'sent'
     
-sendmail("782568799@qq.com")
+sendmail("782568799@qq.com",title='GithubTry'+time.ctime())
