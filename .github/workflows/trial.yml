@@ -13,6 +13,7 @@ on:
 
 jobs:
 #将工作流程中运行的所有作业组合在一起
+
   checkin:  #定义名为 checkin 的job。 子键将定义作业的属性 
     runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
     steps:
@@ -26,6 +27,29 @@ jobs:
         python -m pip install --upgrade pip
         pip3 install -r requirements.txt      
     - name: Checkin
+      run: |
+        python3 ./sendmail.py
+      env:   
+      #设置secrets的环境变量
+        COOKIE1: ${{ secrets.COOKIE1 }}
+        FREQ: ${{secrets.FREQ}}
+        ENCODE: ${{secrets.ENCODE}}
+        URL: ${{secrets.URL}}
+
+  checkin1:  #定义名为 checkin 的job。 子键将定义作业的属性 
+    runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
+    needs: checkin
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9.1
+    - name: requirements
+      run: |
+        python -m pip install --upgrade pip
+        pip3 install -r requirements.txt      
+    - name: Checkin1
       run: |
         python3 ./sendmail.py
       env:   
