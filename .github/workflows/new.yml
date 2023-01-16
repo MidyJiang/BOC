@@ -47,69 +47,9 @@ jobs:
       run: |
         python3 ./boc.py
       
-  checkin2:  #定义名为 checkin2 的job。 子键将定义作业的属性 
-    runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
-    needs: [checkin]
-    steps:
-    - uses: actions/checkout@v2    
-      with:
-        COOKIE1: ${{ secrets.COOKIE1 }}
-        FREQ: ${{secrets.FREQ}}
-        ENCODE: ${{secrets.ENCODE}}
-        URL: ${{secrets.URL}}
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9.1        
-    - name: requirements
-      run: |
-        python -m pip install --upgrade pip
-        pip3 install -r requirements.txt      
-    - name: Checkin
-      run: |
-        python3 ./boc.py
-  checkin3:  #定义名为 checkin2 的job。 子键将定义作业的属性 
-    runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
-    needs: [checkin2]
-    steps:
-    - uses: actions/checkout@v2    
-      with:
-        COOKIE1: ${{ secrets.COOKIE1 }}
-        FREQ: ${{secrets.FREQ}}
-        ENCODE: ${{secrets.ENCODE}}
-        URL: ${{secrets.URL}}
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9.1        
-    - name: requirements
-      run: |
-        python -m pip install --upgrade pip
-        pip3 install -r requirements.txt      
-    - name: Checkin
-      run: |
-        python3 ./boc.py
-  checkin4:  #定义名为 checkin2 的job。 子键将定义作业的属性 
-    runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行 
-    needs: [checkin3]
-    steps:
-    - uses: actions/checkout@v2   
-      with:
-        COOKIE1: ${{ secrets.COOKIE1 }}
-        FREQ: ${{secrets.FREQ}}
-        ENCODE: ${{secrets.ENCODE}}
-        URL: ${{secrets.URL}}
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9.1        
-    - name: requirements
-      run: |
-        python -m pip install --upgrade pip
-        pip3 install -r requirements.txt      
-    - name: Checkin
-      run: |
-        python3 ./boc.py
+      
+      
+      
 
       env:   
       #设置secrets的环境变量
