@@ -36,9 +36,9 @@ def print_folder_tree(path, depth=0):
         # 根据层数打印空格
         print("   " * depth,end="")
         if is_last:
-            print("----".encode('utf-8'), end="")
+            print("----", end="")
         else:
-            print(" |--".encode('utf-8'), end="")
+            print(" |--", end="")
         # 如果是文件夹, 递归
         if os.path.isdir(i_path):
             print(i)
