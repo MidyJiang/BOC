@@ -25,7 +25,7 @@ df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=
 df.to_csv('df.csv',encoding=os.environ["ENCODE"])
 print(os.path.abspath(''))
 for ai,bi,ci in os.walk(os.path.abspath('')):
-    print(a,bi,ci,'\n\n',sep='=========')
+    print(ai,bi,ci,'\n\n',sep='=========')
 
 
 
