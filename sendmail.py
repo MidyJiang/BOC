@@ -21,11 +21,37 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 
+
+
+def print_folder_tree(path, depth=0):
+    files = []
+    items = os.listdir(path)
+    for index, i in enumerate(items):
+        # 是否是最后一个元素
+        is_last = index == len(items) - 1
+        # 拼接文件路径
+        i_path = path + "/" + i
+        # 根据层数打印空格
+        print("   " * depth,end="")
+        if is_last:
+            print("└── ", end="")
+        else:
+            print("├── ", end="")
+        # 如果是文件夹, 递归
+        if os.path.isdir(i_path):
+            print(i)
+            files.extend(print_folder_tree(path=i_path, depth=depth + 1))
+        # 如果是文件就把路径添加到files数组
+        else:
+            print(i_path.split("/")[-1])
+            files.append(i_path)
+    return files 
+
+
 df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
 df.to_csv('df.csv',encoding=os.environ["ENCODE"])
 print(os.path.abspath(''))
-for ai,bi,ci in os.walk(os.path.abspath('')):
-    print(ai,bi,ci,'\n\n',sep='=========')
+print(print_folder_tree(os.path.abspath('')))
 
 
 
