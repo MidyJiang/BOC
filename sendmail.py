@@ -1,3 +1,5 @@
+## -*- coding:utf-8 -*-
+
 import time,random
 import requests,os,datetime,pytz
 import pandas as pd
