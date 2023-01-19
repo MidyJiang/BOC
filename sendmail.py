@@ -51,7 +51,9 @@ def print_folder_tree(path, depth=0):
 
 
 if not os.path.exists('data'): os.mkdir('data')
-df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+try:
+    if len(df)<0:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+except Exception as e:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
 df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
 
 
