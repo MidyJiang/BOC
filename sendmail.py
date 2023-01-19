@@ -49,7 +49,8 @@ def print_folder_tree(path, depth=0):
             files.append(i_path)
     return files 
 
-os.mkdir('data')
+
+if not os.path.exists('data'): os.mkdir('data')
 df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
 df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
 
