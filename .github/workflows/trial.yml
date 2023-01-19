@@ -29,6 +29,12 @@ jobs:
     - name: Checkin
       run: |
         python3 ./sendmail.py
+    ##################################################################################
+    - uses: actions/upload-artifact@v2
+      with:
+        name: agileconfig-ui
+        path: data/df.csv
+######################################################################
       env:   
       #设置secrets的环境变量
         COOKIE1: ${{ secrets.COOKIE1 }}
@@ -48,7 +54,13 @@ jobs:
     - name: requirements
       run: |
         python -m pip install --upgrade pip
-        pip3 install -r requirements.txt      
+        pip3 install -r requirements.txt 
+        ########################################
+    - uses: actions/download-artifact@v2
+      with:
+        name: agileconfig-ui
+        path: data/df.csv
+        ##################################
     - name: Checkin1
       run: |
         python3 ./sendmail.py
