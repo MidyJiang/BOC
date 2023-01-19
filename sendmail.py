@@ -59,7 +59,7 @@ df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
 def sendmail(receive_mail,title=None):
     sendtime=str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16]
     send_usr = '782568799@qq.com'  # 发件人
-    send_pwd ='pdnfrwfijoewbeff'#'BUQRRQFPUANBCWMY' # 授权码，邮箱设置
+    send_pwd ='svkjzmjipaczbehc' # 授权码，邮箱设置
     receive = receive_mail#'782568799@qq.com'  # 接收者
 
     content = '发送于{}<p><a href="{}">GBPCNY-中国银行现价动态,from github</a></p>\n\ncookie={},freq={},encode={},url={}.'.format(
