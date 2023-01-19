@@ -76,8 +76,8 @@ def sendmail(receive_mail,title=None):
     msg['To'] = Header('midynow','utf8') # 收件人--这里是昵称
     
 #     msg.attach(MIMEText(content,'html','utf-8'))  # 构建邮件正文,不能多次构造
-    attchment = MIMEApplication(open(r'df.csv','rb').read()) # 文件
-    attchment.add_header('Content-Disposition','attachment',filename=r'df.csv')
+    attchment = MIMEApplication(open(r'data/df.csv','rb').read()) # 文件
+    attchment.add_header('Content-Disposition','attachment',filename=r'data/df.csv')
     msg.attach(attchment)  # 添加附件到邮件
 #     attchment2 = MIMEApplication(open(r'/kaggle/working/{}.csv'.format(sendtime),'rb').read()) # 文件
 #     attchment2.add_header('Content-Disposition','attachment',filename=r'/kaggle/working/{}.csv'.format(sendtime))
