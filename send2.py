@@ -1,6 +1,6 @@
 ## -*- coding:utf-8 -*-
 file='data/df.csv'
 import os
-print(os.path.abspath(''))
-for a,b,c in os.walk(''):
-  print(a,b,c)
+print(4,os.path.abspath(''))
+for a,b,c in os.walk(os.path.abspath('')):
+  print('------',a,b,c)
