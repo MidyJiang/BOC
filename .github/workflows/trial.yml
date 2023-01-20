@@ -77,8 +77,8 @@ jobs:
         ##############################################################################################
     - name: job2
       run: |
-        #python3 ./send2.py
-        python -c "import pandas as pd; df = pd.read_csv('data\df.csv'); print(len(df),df.columns)"
+        python3 ./send2.py
+        #python -c "import pandas as pd; df = pd.read_csv('data\df.csv'); print(len(df),df.columns)"
       env:   
       #设置secrets的环境变量
 #         S_DF: ${{env.S_DF}}
