@@ -50,25 +50,28 @@ def print_folder_tree(path, depth=0):
     return files 
 
 ##############################################################################################################################################
-# if not os.path.exists('data'): os.mkdir('data')
-# try: 
-#     if len(df)<0:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
-# except Exception as e:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+#传递文件，上传下载
+if not os.path.exists('data'): os.mkdir('data')
+try:
+    df=pd.read_csv(r'data/df.csv')
+    if len(df)<0:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+except Exception as e:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
     
 # try: os.remove('data/df.csv')
 # except FileNotFoundError as E: pass;
-# df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
-##########################################################################
-try:
-    df=pickle.loads(os.environ["S_DF"])
-    if len(df)<0:
-        print(len(df))
-except Exception as E:
-    print(E)
-    df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
-S_DF = pickle.dumps(df)
-os.environ["S_DF"]=S_DF
 df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
+##########################################################################
+#传递变量
+# try:
+#     df=pickle.loads(os.environ["S_DF"])
+#     if len(df)<0:
+#         print(len(df))
+# except Exception as E:
+#     print(E)
+#     df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+# S_DF = pickle.dumps(df)
+# os.environ["S_DF"]=S_DF
+# df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
 ####################################################################
 
 def sendmail(receive_mail,title=None):
