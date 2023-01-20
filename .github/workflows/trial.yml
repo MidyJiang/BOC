@@ -13,7 +13,7 @@ on:
 jobs:
 #将工作流程中运行的所有作业组合在一起
 
-  checkin:  #定义名为 checkin 的job。 子键将定义作业的属性 
+  job1:  #定义名为 checkin 的job。 子键将定义作业的属性 
     runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
     steps:
     
@@ -52,36 +52,36 @@ jobs:
     - name: df-upload
       uses: actions/upload-artifact@v2
       with:
-        name: agileconfig-ui
+        name: df-upload
         path: data/df.csv
 ######################################################################
-#   checkin1:  #定义名为 checkin 的job。 子键将定义作业的属性 
-#     runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
-#     needs: checkin
-#     steps:
-#     - uses: actions/checkout@v2
-#     - name: Set up Python 3.9
-#       uses: actions/setup-python@v2
-#       with:
-#         python-version: 3.9.1
-#     - name: requirements
-#       run: |
-#         python -m pip install --upgrade pip
-#         pip3 install -r requirements.txt 
-#         #####################################################################################
-#     - name: df-downloads
-#     - uses: actions/download-artifact@v2
-#       with:
-#         name: agileconfig-ui
-#         path: data/df.csv
-#         ##############################################################################################
-#     - name: Checkin1
-#       run: |
-#         python3 ./send2.py
-#       env:   
-#       #设置secrets的环境变量
-# #         S_DF: ${{env.S_DF}}
-#         COOKIE1: ${{ secrets.COOKIE1 }}
-#         FREQ: ${{secrets.FREQ}}
-#         ENCODE: ${{secrets.ENCODE}}
-#         URL: ${{secrets.URL}}
+  checkin1:  #定义名为 checkin 的job。 子键将定义作业的属性 
+    runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
+    needs: job1
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9.1
+    - name: requirements
+      run: |
+        python -m pip install --upgrade pip
+        pip3 install -r requirements.txt 
+        #####################################################################################
+    - name: df-downloads
+      uses: actions/download-artifact@v2
+      with:
+        name: df-upload
+        path: data/df.csv
+        ##############################################################################################
+    - name: job2
+      run: |
+        python3 ./send2.py
+      env:   
+      #设置secrets的环境变量
+#         S_DF: ${{env.S_DF}}
+        COOKIE1: ${{ secrets.COOKIE1 }}
+        FREQ: ${{secrets.FREQ}}
+        ENCODE: ${{secrets.ENCODE}}
+        URL: ${{secrets.URL}}
