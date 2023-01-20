@@ -1,5 +1,5 @@
 #工作名字
-name: 串联尝试.yml
+name: gpt.yml
 #
 on:
   workflow_dispatch: 
