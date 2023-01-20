@@ -60,14 +60,14 @@ def print_folder_tree(path, depth=0):
 # df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
 ##########################################################################
 try:
-    df=pickle.loads(env.S_DF)
+    df=pickle.loads(os.environ["S_DF"])
     if len(df)<0:
-        df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+        print(len(df))
 except Exception as E:
     print(E)
     df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
 S_DF = pickle.dumps(df)
-env.S_DF=S_DF
+os.environ["S_DF"]=S_DF
 df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
 ####################################################################
 
