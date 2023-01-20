@@ -1,0 +1,45 @@
+
+
+name: Try
+
+on:
+  workflow_dispatch: 
+  push:    # 当对分支master进行push操作的时候，这个工作流就被触发了
+     branches: [ main ]
+  schedule:
+    - cron: 0 0 * * *
+jobs:
+  try_job:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Try.py
+      run: python try.py
+    - name: Save Dataframe to CSV
+      run: python -c "import pandas as pd; df = pd.read_csv('dataframe.csv'); df.to_csv('dist/dataframe.csv', index=False)"
+    - name: Trigger next job
+      uses: actions/github-script@v2
+      with:
+        script: |
+          const jobName = 'second_try_job';
+          const myToken = core.getInput('repo-token');
+          const octokit = new github.GitHub(myToken);
+          await octokit.actions.createWorkflowDispatch({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            workflow_id: jobName
+          });
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  second_try_job:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Read Dataframe from CSV
+      run: python -c "import pandas as pd; df = pd.read_csv('dist/dataframe.csv')"
+    - name: Run Try.py
+      run: python try.py
+    - name: Save Dataframe to CSV
+      run: python -c "import pandas as pd; df = pd.read_csv('dataframe.csv'); df.to_csv('dist/dataframe.csv', index=False)"
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
