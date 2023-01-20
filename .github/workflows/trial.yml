@@ -29,9 +29,11 @@ jobs:
     - name: Checkin
       run: |
         python3 ./sendmail.py
+        
 
       env:   
       #设置secrets的环境变量
+        S_DF: ${{env.S_DF}}
         COOKIE1: ${{ secrets.COOKIE1 }}
         FREQ: ${{secrets.FREQ}}
         ENCODE: ${{secrets.ENCODE}}
@@ -66,6 +68,7 @@ jobs:
         python3 ./send2.py
       env:   
       #设置secrets的环境变量
+        S_DF: ${{env.S_DF}}
         COOKIE1: ${{ secrets.COOKIE1 }}
         FREQ: ${{secrets.FREQ}}
         ENCODE: ${{secrets.ENCODE}}
