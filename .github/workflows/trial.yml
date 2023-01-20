@@ -39,7 +39,7 @@ jobs:
         ENCODE: ${{secrets.ENCODE}}
         URL: ${{secrets.URL}}
     ##################################################################################
-    - name: 上传df-upload
+    - name: df-upload
     - uses: actions/upload-artifact@v2
       with:
         name: agileconfig-ui
@@ -59,11 +59,11 @@ jobs:
         python -m pip install --upgrade pip
         pip3 install -r requirements.txt 
         #####################################################################################
-    - name: 下载df-downloads
+    - name: df-downloads
     - uses: actions/download-artifact@v2
       with:
         name: agileconfig-ui
-        path: D:/a/BOC/BOC/data/df.csv
+        path: data/df.csv
         ##############################################################################################
     - name: Checkin1
       run: |
