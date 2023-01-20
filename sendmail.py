@@ -1,6 +1,6 @@
 ## -*- coding:utf-8 -*-
 
-import time,random
+import time,random,pickle
 import requests,os,datetime,pytz
 import pandas as pd
 import smtplib 
@@ -49,22 +49,26 @@ def print_folder_tree(path, depth=0):
             files.append(i_path)
     return files 
 
-
+##############################################################################################################################################
 if not os.path.exists('data'): os.mkdir('data')
-try:
-    if len(df)<0:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+try: if len(df)<0:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
 except Exception as e:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
     
-    
-try:
-    os.remove('data/df.csv')
-except FileNotFoundError as E:
-    print(E)
-    pass;
+try: os.remove('data/df.csv')
+except FileNotFoundError as E: pass;
 df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
+##########################################################################
+try:
+    df=pickle.loads(env.S_DF)
+    if len(df)<0:
+        df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+except Exception as E:
+    print(E)
+    df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+S_DF = pickle.dumps(df)
+env.S_DF=S_DF
 
-
-
+####################################################################
 
 def sendmail(receive_mail,title=None):
     sendtime=str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16]
@@ -78,8 +82,6 @@ def sendmail(receive_mail,title=None):
     #content 内容设置
     html_img = f'<p>{content}<br><img src="cid:image1"></br></p>' # html格式添加图片
     email_server = 'smtp.qq.com'
-
-
     msg = MIMEMultipart() # 构建主体
     msg['Subject'] = Header(title,'utf8')  # 邮件主题
     msg['From'] = send_usr  # 发件人
@@ -99,15 +101,14 @@ def sendmail(receive_mail,title=None):
 #     msgimage.add_header('Content-ID', '<image1>')  # 设置图片
 #     msg.attach(msgimage)
 #     msg.attach(MIMEText(html_img,'html','utf-8'))  # 添加到邮件正文
-    
-    try:
-       
+
+    try:      
         smtp = SMTP_SSL(email_server)  #指定邮箱服务器
         smtp.ehlo(email_server)   # 部分邮箱需要
         smtp.login(send_usr,send_pwd)  # 登录邮箱
         smtp.sendmail(send_usr,receive,msg.as_string())  # 分别是发件人、收件人、格式
         smtp.quit()  # 结束服务
-        print(receive_mail,'邮件发送成功,mailflag已经改成False!'.encode('utf-8'),str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
+        print(receive_mail,'sent successfulllllllllllllllllly!,mailflag turned False!'.encode('utf-8'),str(datetime.datetime.now(pytz.timezone('Asia/Chongqing'))).replace(":",".")[:16])
         global mailflag
         mailflag=False
     except Exception as E:
