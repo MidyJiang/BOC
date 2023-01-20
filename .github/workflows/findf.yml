@@ -1,0 +1,87 @@
+name: find my df.yml
+
+on:
+  workflow_dispatch: 
+  push:    # 当对分支master进行push操作的时候，这个工作流就被触发了
+     branches: [ main ]
+#  pull_request:  #只运行特定分支master
+#    branches: [ main ]
+   
+
+jobs:
+#将工作流程中运行的所有作业组合在一起
+
+  job1:  #定义名为 checkin 的job。 子键将定义作业的属性 
+    runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
+    steps:
+    
+    
+    - uses: actions/checkout@v2
+    
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with: 
+        python-version: 3.9.1
+        
+        
+        
+    - name: requirements
+      run: |
+        python -m pip install --upgrade pip
+        pip3 install -r requirements.txt      
+        
+        
+        
+        
+    - name: Checkin
+      run: |
+        python3 ./sendmail.py
+        
+
+      env:   
+        #设置secrets的环境变量
+        #         S_DF: ${{env.S_DF}}
+        COOKIE1: ${{ secrets.COOKIE1 }}
+        FREQ: ${{secrets.FREQ}}
+        ENCODE: ${{secrets.ENCODE}}
+        URL: ${{secrets.URL}}
+    ##################################################################################
+    - name: df-upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: df-upload
+        path: data/df.csv
+######################################################################
+  checkin1:  #定义名为 checkin 的job。 子键将定义作业的属性 
+    runs-on: windows-latest    #将作业配置为在最新版本的 windows运行器上运行
+    needs: job1
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9.1
+    - name: requirements
+      run: |
+        python -m pip install --upgrade pip
+        pip3 install -r requirements.txt 
+        #####################################################################################
+    - name: df-downloads
+      uses: actions/download-artifact@v2
+      with:
+        name: df-upload
+        path: data/df.csv
+        ##############################################################################################
+    - name: job2
+      run: |
+        python3 ./send2.py
+        #python -c "import pandas as pd; df = pd.read_csv('data\df.csv'); print(len(df),df.columns)"
+      env:   
+      #设置secrets的环境变量
+#         S_DF: ${{env.S_DF}}
+        SDF=hashFiles('data/df.csv')
+        COOKIE1: ${{ secrets.COOKIE1 }}
+        FREQ: ${{secrets.FREQ}}
+        ENCODE: ${{secrets.ENCODE}}
+        URL: ${{secrets.URL}}
