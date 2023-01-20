@@ -2,7 +2,7 @@
 
 import os
 print(4,os.path.abspath(''))
-for a,b,c in os.walk(os.path.abspath('')):
+for a,b,c in os.walk('D:A/BOC'):
   print(a,b,c,'\n\n')
   
 # file=os.environ["SDF"]
