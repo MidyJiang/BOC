@@ -50,13 +50,14 @@ def print_folder_tree(path, depth=0):
     return files 
 
 ##############################################################################################################################################
-if not os.path.exists('data'): os.mkdir('data')
-try: if len(df)<0:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
-except Exception as e:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+# if not os.path.exists('data'): os.mkdir('data')
+# try: 
+#     if len(df)<0:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
+# except Exception as e:df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
     
-try: os.remove('data/df.csv')
-except FileNotFoundError as E: pass;
-df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
+# try: os.remove('data/df.csv')
+# except FileNotFoundError as E: pass;
+# df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
 ##########################################################################
 try:
     df=pickle.loads(env.S_DF)
@@ -67,7 +68,7 @@ except Exception as E:
     df=pd.DataFrame({"time":time.ctime(),"zone":"GMT","currency":"GBP英镑"},index=['test'])
 S_DF = pickle.dumps(df)
 env.S_DF=S_DF
-
+df.to_csv('data/df.csv',encoding=os.environ["ENCODE"])
 ####################################################################
 
 def sendmail(receive_mail,title=None):
