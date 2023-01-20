@@ -80,7 +80,7 @@ jobs:
       env:   
       #设置secrets的环境变量
 #         S_DF: ${{env.S_DF}}
-        SDF: hashFiles('data/df.csv')
+#        SDF: hashFiles('data/df.csv')
         COOKIE1: ${{ secrets.COOKIE1 }}
         FREQ: ${{secrets.FREQ}}
         ENCODE: ${{secrets.ENCODE}}
