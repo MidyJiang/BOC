@@ -77,7 +77,8 @@ jobs:
         ##############################################################################################
     - name: job2
       run: |
-        python3 ./send2.py
+        #python3 ./send2.py
+        python -c "import os; import time; print('currrrrrrrrrrrrrrent time is:',time.ctime())"
         #python -c "import pandas as pd; df = pd.read_csv('data\df.csv'); print(len(df),df.columns)"
       env:   
       #设置secrets的环境变量
