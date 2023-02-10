@@ -46,6 +46,12 @@ jobs:
     - name: Checkin
       run: |
         python3 ./boc.py
+      env:   
+      #设置secrets的环境变量
+        COOKIE1: ${{ secrets.COOKIE1 }}
+        FREQ: ${{secrets.FREQ}}
+        ENCODE: ${{secrets.ENCODE}}
+        URL: ${{secrets.URL}}
         
         
         
