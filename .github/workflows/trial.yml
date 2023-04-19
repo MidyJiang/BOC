@@ -1,13 +1,13 @@
 name: 串联尝试.yml
 #
-on:
-  workflow_dispatch: 
-  push:    # 当对分支master进行push操作的时候，这个工作流就被触发了
-     branches: [ main ]
-#  pull_request:  #只运行特定分支master
-#    branches: [ main ]
-  schedule:  # 定时任务，在每天的24点 18点推送签到信息到邮箱
-    - cron:  10 19 * * 0 
+# on:
+#   workflow_dispatch: 
+#   push:    # 当对分支master进行push操作的时候，这个工作流就被触发了
+#      branches: [ main ]
+# #  pull_request:  #只运行特定分支master
+# #    branches: [ main ]
+#   schedule:  # 定时任务，在每天的24点 18点推送签到信息到邮箱
+#     - cron:  10 19 * * 0 
    
 
 jobs:
