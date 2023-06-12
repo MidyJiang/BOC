@@ -1,23 +1,23 @@
 #工作名字
 name: new formal正式流程2.10committed
 #
-on:
-  workflow_dispatch: 
-  push:
-  # 当对分支master进行push操作的时候，这个工作流就被触发了
-    branches: [ main ]
-  pull_request:
-  #只运行特定分支master
-    branches: [ main ]
-  schedule:
-  # 定时任务，在每天的24点 18点推送签到信息到邮箱
-    - cron:  10 23 2 1 1 
-      # 定时器更改时间
-      # https://tool.lu/crontab/
-      # https://datetime360.com/cn/utc-cst-china-time/ #UTC时间 国际协调时间+8=北京时间
-      # https://docs.github.com/cn/actions/using-workflows/workflow-syntax-for-github-actions#onschedule 官方参考
-  #watch:
-  #    types: started   
+# on:
+#   workflow_dispatch: 
+#   push:
+#   # 当对分支master进行push操作的时候，这个工作流就被触发了
+#     branches: [ main ]
+#   pull_request:
+#   #只运行特定分支master
+#     branches: [ main ]
+#   schedule:
+#   # 定时任务，在每天的24点 18点推送签到信息到邮箱
+#     - cron:  10 23 2 1 1 
+#       # 定时器更改时间
+#       # https://tool.lu/crontab/
+#       # https://datetime360.com/cn/utc-cst-china-time/ #UTC时间 国际协调时间+8=北京时间
+#       # https://docs.github.com/cn/actions/using-workflows/workflow-syntax-for-github-actions#onschedule 官方参考
+#   #watch:
+#   #    types: started   
 
 jobs:
 #将工作流程中运行的所有作业组合在一起
